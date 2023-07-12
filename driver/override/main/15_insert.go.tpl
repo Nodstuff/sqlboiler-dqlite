@@ -88,12 +88,6 @@ func (o *{{$alias.UpSingular}}) Insert({{if .NoContext}}exec boil.Executor{{else
 		if len(cache.retMapping) != 0 {
 			{{if .Dialect.UseLastInsertID -}}
 			cache.retQuery = fmt.Sprintf("SELECT {{.LQ}}%s{{.RQ}} FROM {{$schemaTable}} WHERE %s", strings.Join(returnColumns, "{{.RQ}},{{.LQ}}"), strmangle.WhereClause("{{.LQ}}", "{{.RQ}}", {{if .Dialect.UseIndexPlaceholders}}1{{else}}0{{end}}, {{$alias.DownSingular}}PrimaryKeyColumns))
-			{{else -}}
-				{{if .Dialect.UseOutputClause -}}
-			queryOutput = fmt.Sprintf("OUTPUT INSERTED.{{.LQ}}%s{{.RQ}} ", strings.Join(returnColumns, "{{.RQ}},INSERTED.{{.LQ}}"))
-				{{else -}}
-			queryReturning = fmt.Sprintf(" RETURNING {{.LQ}}%s{{.RQ}}", strings.Join(returnColumns, "{{.RQ}},{{.LQ}}"))
-				{{end -}}
 			{{end -}}
 		}
 
