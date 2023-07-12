@@ -580,6 +580,16 @@ func (DQLiteDriver) Imports() (col importers.Collection, err error) {
 				`"github.com/volatiletech/sqlboiler/v4/drivers"`,
 			},
 		},
+		"dqlite_insert": {
+			Standard: importers.List{
+				`"fmt"`,
+				`"strings"`,
+			},
+			ThirdParty: importers.List{
+				`"github.com/volatiletech/strmangle"`,
+				`"github.com/volatiletech/sqlboiler/v4/drivers"`,
+			},
+		},
 	}
 
 	col.TestSingleton = importers.Map{
