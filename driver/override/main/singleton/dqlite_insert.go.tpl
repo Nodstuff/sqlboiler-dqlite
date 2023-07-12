@@ -1,36 +1,3 @@
-{{- if or (not .Table.IsView) (.Table.ViewCapabilities.CanInsert) -}}
-{{- $alias := .Aliases.Table .Table.Name}}
-{{- $schemaTable := .Table.Name | .SchemaTable}}
-{{if .AddGlobal -}}
-// InsertG a single record. See Insert for whitelist behavior description.
-func (o *{{$alias.UpSingular}}) InsertG({{if not .NoContext}}ctx context.Context, {{end -}} columns boil.Columns) error {
-	return o.Insert({{if .NoContext}}boil.GetDB(){{else}}ctx, boil.GetContextDB(){{end}}, columns)
-}
-
-{{end -}}
-
-{{if .AddPanic -}}
-// InsertP a single record using an executor, and panics on error. See Insert
-// for whitelist behavior description.
-func (o *{{$alias.UpSingular}}) InsertP({{if .NoContext}}exec boil.Executor{{else}}ctx context.Context, exec boil.ContextExecutor{{end}}, columns boil.Columns) {
-	if err := o.Insert({{if not .NoContext}}ctx, {{end -}} exec, columns); err != nil {
-		panic(boil.WrapErr(err))
-	}
-}
-
-{{end -}}
-
-{{if and .AddGlobal .AddPanic -}}
-// InsertGP a single record, and panics on error. See Insert for whitelist
-// behavior description.
-func (o *{{$alias.UpSingular}}) InsertGP({{if not .NoContext}}ctx context.Context, {{end -}} columns boil.Columns) {
-	if err := o.Insert({{if .NoContext}}boil.GetDB(){{else}}ctx, boil.GetContextDB(){{end}}, columns); err != nil {
-		panic(boil.WrapErr(err))
-	}
-}
-
-{{end -}}
-
 // Insert a single record using an executor.
 // See boil.Columns.InsertColumnSet documentation to understand column list inference for inserts.
 func (o *{{$alias.UpSingular}}) Insert({{if .NoContext}}exec boil.Executor{{else}}ctx context.Context, exec boil.ContextExecutor{{end}}, columns boil.Columns) error {
